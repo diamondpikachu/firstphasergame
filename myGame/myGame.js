@@ -14,8 +14,8 @@ game_state.main.prototype = {
 	    game.load.image("ground", "assets/platform.png");
 	    game.load.image("star", "assets/pikachu.png");
 	    game.load.image("diamond", "assets/squirtle.png");
-	    game.load.spritesheet("dude", "assets/betterDude.png", 128, 120);
-},
+	    game.load.spritesheet("dude", "assets/penguin.png", 72, 108);
+    },
 
 
     create: function () {
@@ -38,7 +38,7 @@ game_state.main.prototype = {
         
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-        this.player = game.add.sprite(32, 300, "dude");
+        this.player = game.add.sprite(400, 480, "dude");
         game.physics.arcade.enable(this.player);
         
         this.player.body.bounce.y = 0.25;
@@ -56,7 +56,6 @@ game_state.main.prototype = {
         this.stars.enableBody = true;
         for (var i = 0; i < 12; i++) {
             var star = this.stars.create(i * 70, 0, "star");
-            this.stars.scale.setTo(0.5, 0.5);
             star.body.gravity.y = 300;
             star.body.bounce.y = 0.7 + Math.random() * 0.2;
         }
@@ -64,7 +63,6 @@ game_state.main.prototype = {
         this.diamonds = game.add.group();
         this.diamonds.enableBody = true;
         for (var i = 0; i < 12; i++) {
-            this.diamonds.scale.setTo(0.5, 0.5);
             var diamond = this.diamonds.create(i * 70, 300, "diamond");
             diamond.body.gravity.y = 300;
             diamond.body.bounce.y = 0.7 + Math.random() * 0.2;
@@ -76,7 +74,7 @@ game_state.main.prototype = {
         });
         
         this.score = 0;
-},
+    },
 
 
     update: function () {
@@ -107,29 +105,30 @@ game_state.main.prototype = {
 
         game.physics.arcade.overlap(this.player, this.diamonds, this.collectDiamond, null, this);
         
-        if (this.score >= 25) {
+        if (this.score >= 100) {
             game.state.start("end");
         }
     },
     
-        collectStar: function(player, star) {
-            star.kill();
-            this.score += 1;
-            this.scoreText.text = "Score: " + this.score;
-            star = this.stars.create(Math.random() * 800, 0, "star");
-            star.body.gravity.y = 300;
-            star.body.bounce.y = 0.7 + Math.random() * 0.2;
-        },
-        
-        collectDiamond: function(player, diamond) {
-            diamond.kill();
-            this.score += 1;
-            this.scoreText.text = "Score: " + this.score;
-            diamond = this.diamonds.create(Math.random() * 800, 300, "diamond");
-            diamond.body.gravity.y = 300;
-            diamond.body.bounce.y = 0.7 + Math.random() * 0.2;
-        }
     
+    collectStar: function(player, star) {
+        star.kill();
+        this.score += 1;
+        this.scoreText.text = "Score: " + this.score;
+        star = this.stars.create(Math.random() * 800, 0, "star");
+        star.body.gravity.y = 300;
+        star.body.bounce.y = 0.7 + Math.random() * 0.2;
+    },
+        
+        
+    collectDiamond: function(player, diamond) {
+        diamond.kill();
+        this.score += 1;
+        this.scoreText.text = "Score: " + this.score;
+        diamond = this.diamonds.create(Math.random() * 800, 300, "diamond");
+        diamond.body.gravity.y = 300;
+        diamond.body.bounce.y = 0.7 + Math.random() * 0.2;
+    }
 };
 
-game.state.add("main", game_state.main);
+game.state.add("main", game_state.main);                                                                                                                                       
